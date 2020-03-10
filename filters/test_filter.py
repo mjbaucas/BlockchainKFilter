@@ -35,12 +35,15 @@ if __name__ == "__main__":
 			U[i]+=1
 
 	P_KF = zeros((n,n,len(t)))
-	X_KF = X
+	X_KF = zeros((n, len(t)))
 	P_KF[:,:,0] = 10*Q
-	A_KF = A
+	A_KF = array([[1, T, 0], [0, 1, T], [-557.02, -28.616, 0.9418]])
 	
 	kf = KalmanFilter()
 	for k in range(1, len(t)-1):
+		if k == (len(t)/2):
+			A_KF = array([[1, T, 0], [0, 1, T], [-240, -28, 0.9418]]) 
+
 		X[:, k+1] = nan_to_num(dot(A, X[:, k])) + nan_to_num(dot(B, U[k])) + W[:, k]
 		Z[:, k+1] = nan_to_num(dot(C, X[:, k+1])) + V[:, k+1]
 		
@@ -48,4 +51,4 @@ if __name__ == "__main__":
 
 	plt.plot(t, X[0,:])
 	plt.plot(t, X_KF[0,:])
-	plt.savefig('test2.png')
+	plt.savefig('test3.png')
