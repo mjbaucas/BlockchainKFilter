@@ -1,2 +1,2 @@
 # BlockchainKFilter
-IoT testbed implementation that us Blockchain and Kalman Filter concepts and applications
+IoT testbed implementation that use Blockchain and Kalman Filter concepts and applications
