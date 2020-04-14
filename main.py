@@ -6,6 +6,7 @@ from math import sqrt
 import matplotlib.pyplot as plt
 
 from filters.kalman import KalmanFilter1D
+from ble.ble_utils import getRSSIandTX
 
 if __name__ == "__main__":
     T = 1e-3
@@ -14,7 +15,7 @@ if __name__ == "__main__":
     B = 0
     C = 1
     Q = 1e-3
-    R = 1e-3
+    R = 1e-2
 
     X = [0]*len(t)
     Z = randn(len(t))
@@ -37,11 +38,15 @@ if __name__ == "__main__":
     A_KF = 1
 
     kf = KalmanFilter1D()
-    for k in range(1, len(t)-1):
-        if X[k] == None:
-            X_KF[k+1] = Z[k]*(1/C)
-        else:
-            X_KF[k+1], P_KF[k+1] = kf.filter(X_KF[k], Z[k], U[k], P_KF[k], A_KF, B, C, Q, R)
+    
+    for k in range(10):
+        getRSSIandTX(10)
+
+    #for k in range(1, len(t)-1):
+        #if X[k] == None:
+        #    X_KF[k+1] = Z[k]*(1/C)
+        #else:
+        #    X_KF[k+1], P_KF[k+1] = kf.filter(X_KF[k], Z[k], U[k], P_KF[k], A_KF, B, C, Q, R)
 
     plt.plot(t, Z[:])
     plt.plot(t, X_KF[:])
