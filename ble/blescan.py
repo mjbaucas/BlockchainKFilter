@@ -50,19 +50,19 @@ def returnnumberpacket(pkt):
     myInteger = 0
     multiple = 256
     for c in pkt:
-        myInteger +=  struct.unpack("B",c)[0] * multiple
+        myInteger +=  c * multiple
         multiple = 1
     return myInteger 
 
 def returnstringpacket(pkt):
     myString = "";
     for c in pkt:
-        myString +=  "%02x" %struct.unpack("B",c)[0]
+        myString +=  "%02x" %c
     return myString 
 
 def printpacket(pkt):
     for c in pkt:
-        sys.stdout.write("%02x " % struct.unpack("B",c)[0])
+        sys.stdout.write("%02x " %c)
 
 def get_packed_bdaddr(bdaddr_string):
     packable_addr = []
@@ -137,13 +137,13 @@ def parse_events(sock, loop_count=100):
         elif event == bluez.EVT_DISCONN_COMPLETE:
             i =0 
         elif event == LE_META_EVENT:
-            subevent, = struct.unpack("B", pkt[3])
+            subevent = pkt[3]
             pkt = pkt[4:]
             if subevent == EVT_LE_CONN_COMPLETE:
                 le_handle_connection_complete(pkt)
             elif subevent == EVT_LE_ADVERTISING_REPORT:
                 #print "advertising report"
-                num_reports = struct.unpack("B", pkt[0])[0]
+                num_reports = pkt[0]
                 report_pkt_offset = 0
                 for i in range(0, num_reports):
                     if (DEBUG == True):
@@ -154,10 +154,10 @@ def parse_events(sock, loop_count=100):
                         print("\tMINOR: ", printpacket(pkt[report_pkt_offset -4: report_pkt_offset - 2]))
                         print("\tMAC address: ", packed_bdaddr_to_string(pkt[report_pkt_offset + 3:report_pkt_offset + 9]))
                         # commented out - don't know what this byte is.  It's NOT TXPower
-                        txpower, = struct.unpack("b", pkt[report_pkt_offset -2])
+                        txpower, = pkt[report_pkt_offset -2]
                         print("\t(Unknown):", txpower)
                         
-                        rssi, = struct.unpack("b", pkt[report_pkt_offset -1])
+                        rssi, = pkt[report_pkt_offset -1]
                         print("\tRSSI:", rssi)
                     # build the return string
                     Adstring = packed_bdaddr_to_string(pkt[report_pkt_offset + 3:report_pkt_offset + 9])
@@ -168,9 +168,9 @@ def parse_events(sock, loop_count=100):
                     Adstring += ","
                     Adstring += "%i" % returnnumberpacket(pkt[report_pkt_offset -4: report_pkt_offset - 2]) 
                     Adstring += ","
-                    Adstring += "%i" % struct.unpack("b", pkt[report_pkt_offset -2])
+                    Adstring += "%i" % pkt[report_pkt_offset -2]
                     Adstring += ","
-                    Adstring += "%i" % struct.unpack("b", pkt[report_pkt_offset -1])
+                    Adstring += "%i" % pkt[report_pkt_offset -1]
 
                     #print "\tAdstring=", Adstring
                     myFullList.append(Adstring)
