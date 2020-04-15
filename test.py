@@ -1,8 +1,8 @@
 from localization.tri_utils import pick_anchors, get_distance, trilateration, plot_on_grid
 
 anchors = {
-	'A':-67,
-	'B':-81,
+	'A':[[,], [,], [,], [,], [,], [,], [,], [,], [,], [,]],
+	'B':,
 	'C':-42,
 	'D':67	
 }

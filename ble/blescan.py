@@ -46,6 +46,9 @@ ADV_NONCONN_IND=0x03
 ADV_SCAN_RSP=0x04
 
 
+def returnnumber(pkt):
+    return pkt - (2*(128) if pkt > 127 else 0)
+
 def returnnumberpacket(pkt):
     myInteger = 0
     multiple = 256
@@ -139,6 +142,7 @@ def parse_events(sock, loop_count=100):
         elif event == LE_META_EVENT:
             subevent = pkt[3]
             pkt = pkt[4:]
+            #print(pkt)
             if subevent == EVT_LE_CONN_COMPLETE:
                 le_handle_connection_complete(pkt)
             elif subevent == EVT_LE_ADVERTISING_REPORT:
@@ -168,9 +172,9 @@ def parse_events(sock, loop_count=100):
                     Adstring += ","
                     Adstring += "%i" % returnnumberpacket(pkt[report_pkt_offset -4: report_pkt_offset - 2]) 
                     Adstring += ","
-                    Adstring += "%i" % pkt[report_pkt_offset -2]
+                    Adstring += "%i" % returnnumber(pkt[report_pkt_offset -2])
                     Adstring += ","
-                    Adstring += "%i" % pkt[report_pkt_offset -1]
+                    Adstring += "%i" % returnnumber(pkt[report_pkt_offset -1])
 
                     #print "\tAdstring=", Adstring
                     myFullList.append(Adstring)
