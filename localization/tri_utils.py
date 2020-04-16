@@ -45,3 +45,6 @@ def plot_on_grid(x, y, l, w, ref):
 		return l-x,w-y
 	else:
 		return l-y,x
+
+def get_point_distance(x1,y1,x2,y2):
+	return sqrt((x2-x1)**2 + (y2-y1)**2)

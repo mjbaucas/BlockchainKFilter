@@ -13,8 +13,8 @@ authorized = ['b8:27:eb:ca:80:6c']
 kf = KalmanFilter1D()
 
 if __name__ == "__main__":
-    rssi_file = open("rssiD.txt", "a")
-    dist_file = open("distD.txt", "a")
+    rssi_file = open("rssiA.txt", "a")
+    dist_file = open("distA.txt", "a")
     
     A = 1
     B = 0
