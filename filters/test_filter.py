@@ -3,7 +3,7 @@ from numpy.linalg import norm
 from numpy.random import multivariate_normal, randn
 import matplotlib.pyplot as plt
 
-from kalman import KalmanFilter
+from kalman import KalmanFilter2DPlus
 
 if __name__ == "__main__":
 	T = 1e-3
@@ -39,7 +39,7 @@ if __name__ == "__main__":
 	P_KF[:,:,0] = 10*Q
 	A_KF = array([[1, T, 0], [0, 1, T], [-557.02, -28.616, 0.9418]])
 	
-	kf = KalmanFilter()
+	kf = KalmanFilter2DPlus()
 	for k in range(1, len(t)-1):
 		if k == (len(t)/2):
 			A_KF = array([[1, T, 0], [0, 1, T], [-240, -28, 0.9418]]) 
@@ -51,4 +51,4 @@ if __name__ == "__main__":
 
 	plt.plot(t, X[0,:])
 	plt.plot(t, X_KF[0,:])
-	plt.savefig('test3.png')
+	plt.savefig('KF2Dtest.png')
