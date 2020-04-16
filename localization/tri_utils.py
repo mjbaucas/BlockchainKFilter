@@ -4,12 +4,12 @@ def get_distance(rssi, C=-67, N=2.0):
 	return 10.0 ** ((C - rssi)/(10.0 * N))
 
 def pick_anchors(anchors):
-	points = sorted(anchors, key=lambda dict_key: abs(anchors[dict_key]))
+	points = sorted(anchors, key=lambda dict_key: abs(anchors[dict_key][0]))
 	points = points[:3]
 	
 	selected_anchors = {}
 	for i in range(3):
-		selected_anchors[points[i]] = float(anchors[points[i]])
+		selected_anchors[points[i]] = float(anchors[points[i]][1])
 	
 	sorted_anchors = {}
 	if 'A' not in selected_anchors.keys():

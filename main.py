@@ -1,5 +1,5 @@
 from numpy.random import randn
-from sklearn.metrics import mean_squared_error
+#from sklearn.metrics import mean_squared_error
 
 from math import sqrt
 import matplotlib.pyplot as plt
@@ -13,8 +13,8 @@ authorized = ['b8:27:eb:ca:80:6c']
 kf = KalmanFilter1D()
 
 if __name__ == "__main__":
-    rssi_file = open("rssi50cm2.txt", "a")
-    dist_file = open("dist50cm2.txt", "a")
+    rssi_file = open("rssiD.txt", "a")
+    dist_file = open("distD.txt", "a")
     
     A = 1
     B = 0
@@ -23,7 +23,7 @@ if __name__ == "__main__":
     R = 1e-2
 
     X = [None]
-    t = 100
+    t = 50
     Z = []
     P_KF = [Q]
     X_KF = []
@@ -32,7 +32,7 @@ if __name__ == "__main__":
     D = []
     D_KF = []
     while k < t:
-        rssi, tx_power = get_RSSI_and_TX(1, authorized)
+        rssi, tx_power = get_RSSI_and_TX(5, authorized)
         if rssi != 0:
             Z.append(rssi)
             D.append(get_distance(rssi, C=tx_power, N=2))   
@@ -51,10 +51,10 @@ if __name__ == "__main__":
             dist_file.write("{} {}\n".format(D[k], D_KF[k]))
             k+=1
             
-    rms = sqrt(mean_squared_error(Z, X_KF))
-    rms_d = sqrt(mean_squared_error(D, D_KF))
-    print(rms)
-    print(rms_d)
+    #rms = sqrt(mean_squared_error(Z, X_KF))
+    #rms_d = sqrt(mean_squared_error(D, D_KF))
+    #print(rms)
+    #print(rms_d)
     
     plt.figure(0)
     plt.plot(Z[:], label="True")
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     plt.legend()
     plt.ylabel("RSSI (dB)")
     plt.xlabel("Samples")
-    plt.savefig('rssiplot50cm2.png')
+    #plt.savefig('rssiplotA.png')
     
     plt.figure(1)
     plt.plot(D, label="True")
@@ -70,7 +70,7 @@ if __name__ == "__main__":
     plt.legend()
     plt.ylabel("Distance (m)")
     plt.xlabel("Samples")
-    plt.savefig('dplot50cm2.png')
+    #plt.savefig('dplot5A.png')
     
     rssi_file.close()
     dist_file.close()
