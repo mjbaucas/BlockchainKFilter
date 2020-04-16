@@ -13,8 +13,8 @@ authorized = ['b8:27:eb:ca:80:6c']
 kf = KalmanFilter1D()
 
 if __name__ == "__main__":
-    rssi_file = open("rssi25cm.txt", "a")
-    dist_file = open("dist25cm.txt", "a")
+    rssi_file = open("rssi50cm2.txt", "a")
+    dist_file = open("dist50cm2.txt", "a")
     
     A = 1
     B = 0
@@ -32,7 +32,7 @@ if __name__ == "__main__":
     D = []
     D_KF = []
     while k < t:
-        rssi, tx_power = get_RSSI_and_TX(5, authorized)
+        rssi, tx_power = get_RSSI_and_TX(1, authorized)
         if rssi != 0:
             Z.append(rssi)
             D.append(get_distance(rssi, C=tx_power, N=2))   
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     plt.legend()
     plt.ylabel("RSSI (dB)")
     plt.xlabel("Samples")
-    plt.savefig('rssiplot25cm.png')
+    plt.savefig('rssiplot50cm2.png')
     
     plt.figure(1)
     plt.plot(D, label="True")
@@ -70,7 +70,7 @@ if __name__ == "__main__":
     plt.legend()
     plt.ylabel("Distance (m)")
     plt.xlabel("Samples")
-    plt.savefig('dplot25cm.png')
+    plt.savefig('dplot50cm2.png')
     
     rssi_file.close()
     dist_file.close()

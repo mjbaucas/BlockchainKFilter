@@ -1,4 +1,4 @@
 Actual Distance       Calculated Distance 	      RSSI
-0.25 m                       0.06                     5.92
+0.25 m                       0.07                     3.16
 0.50 m                       0.18                     3.57
-1 m
+1 m                          0.43                     4.46
