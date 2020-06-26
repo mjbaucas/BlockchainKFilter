@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 from filters.kalman import KalmanFilter1D
 from localization.tri_utils import get_distance
-from zigbee.xb_utils import get_RSSI
+from wifi.wifi_utils import get_RSSI
 import hashlib
 from blockchain.private_blockchain import Chain
 
@@ -19,8 +19,8 @@ kf = KalmanFilter1D()
 
 if __name__ == "__main__":
     # Write to files
-    rssi_file = open("rssiXB100.txt", "a")
-    dist_file = open("distXB100.txt", "a")
+    rssi_file = open("rssiW100.txt", "a")
+    dist_file = open("distW100.txt", "a")
     
     # Filter Parameters
     A = 1
@@ -40,17 +40,17 @@ if __name__ == "__main__":
     D = []
     D_KF = []
     while k < t:
-        rssi = 64 - get_RSSI(5)
+        rssi = get_RSSI(5)
         if rssi != 0:
             Z.append(rssi)
-            D.append(get_distance(rssi, C=18, N=2))   
+            D.append(get_distance(rssi, C=-45, N=2))   
             if k == 0:
                 X_KF.append(Z[k]*(1/C))
             else:
                 new_X_KF, new_P_KF = kf.filter(X_KF[k-1], Z[k], 0, P_KF[k-1], A, B, C, Q, R)
                 X_KF.append(new_X_KF)
                 P_KF.append(new_P_KF)
-            D_KF.append(get_distance(X_KF[k], C=18, N=2))  
+            D_KF.append(get_distance(X_KF[k], C=-45, N=2))  
             
             # Debugging prints
             print(D[k])
@@ -73,7 +73,7 @@ if __name__ == "__main__":
     plt.legend()
     plt.ylabel("RSSI (dB)")
     plt.xlabel("Samples")
-    plt.savefig('rssiplotXB100.png')
+    plt.savefig('rssiplotW100.png')
     
     # Plot Distance
     plt.figure(1)
@@ -82,7 +82,7 @@ if __name__ == "__main__":
     plt.legend()
     plt.ylabel("Distance (m)")
     plt.xlabel("Samples")
-    plt.savefig('dplotXB100.png')
+    plt.savefig('dplotW100.png')
     
     # Clean up
     rssi_file.close()

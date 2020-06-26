@@ -17,12 +17,12 @@ def get_RSSI(iteration):
             if 'parameter' in packet:
                 rssi_list.append(packet['parameter'][0])
                 counter += 1
-            sleep(0.5)
+            sleep(0.1)
         except KeyboardInterrupt:
             break
     comm.close()
     
-    if len(rssi_list) > 0 
+    if len(rssi_list) > 0:
         rssi = max(set(rssi_list), key=rssi_list.count)
     
     print(rssi)
