@@ -1,12 +1,14 @@
 import hashlib
+import json
 
 class Block:
-    def __init__(self, index, timestamp, transactions, previous_hash, public_key):
+    def __init__(self, index, timestamp, transactions, previous_hash, public_key, nonce=0):
         self.public_key = public_key
         self.index = index
         self.timestamp = timestamp
         self.transactions = transactions
         self.previous_hash = previous_hash
+        self.nonce = nonce
         self.hash = self.gen_hashed_block()
     
     def gen_hashed_block(self):
@@ -14,6 +16,10 @@ class Block:
         sha.update((str(self.index) + str(self.timestamp) + str(self.transactions) + str(self.previous_hash)).encode('utf-8'))
         return sha.hexdigest()
     
+    def compute_hash(self):
+        block_str = json.dumps(self.__dict__, indent=4, sort_keys=True, default=str)
+        return hashlib.sha256(block_str.encode()).hexdigest()
+
     def validate_private_key(self, private_key):
         pub_key = self.public_key
         sha = hashlib.sha256()
