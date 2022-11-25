@@ -73,6 +73,7 @@ while True:
             if data_queue[trustee]["X"] != None and data_queue[trustee]["P"] != None:
                 trust_counter+=1
         
+        # Calculate the final P and X
         sum_inv_P_K = 0
         sum_inv_P_X = 0
         if trust_counter == len(trusted_list):
@@ -88,7 +89,19 @@ while True:
             X_M.append(X_F_K)
             k+=1
 
-            data = str(P_F_K) + "_" + str(X_F_K)        
+            data = str(P_F_K) + "_" + str(X_F_K) 
+            data_queue[message[0]]["sent"] = True
+
+        # Check if valeu has been sent to local filter
+        sent_counter = 0
+        for trustee in trusted_list:
+            if data_queue[trustee]["sent"]:
+                sent_counter+=1
+        if sent_counter == len(trusted_list):
+            for trustee in trusted_list:
+                data_queue[trustee]["P"] = None
+                data_queue[trustee]["X"] = None
+                data_queue[trustee]["sent"] = False
     
     send_msg(conn, str.encode(data))# Send back the received data intact
     print('Received', repr(data))  
