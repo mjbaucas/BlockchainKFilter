@@ -1,5 +1,5 @@
 import datetime
-from block_struct import Block
+from blockchain.block_struct import Block
 
 class Chain:
 	def __init__(self):
