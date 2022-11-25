@@ -33,7 +33,7 @@ if __name__ == "__main__":
     Q = 1e-3
     R = 1e-2
 
-    Beta = 0.5
+    Beta = 1
 
     X = [None]
     t = 100
