@@ -40,7 +40,7 @@ X = [None]
 t = 100
 Z = []
 P_M = [Q]
-X_M = [1]
+X_M = [0]
 
 k = 1
 D = []
@@ -77,7 +77,7 @@ while True:
         if trust_counter == len(trusted_list):
             for trustee in trusted_list:
                 sum_inv_P_K += data_queue[trustee]["P"]
-                sum_inv_P_X += data_queue[trustee]["P"] + data_queue[trustee]["X"]
+                sum_inv_P_X += data_queue[trustee]["P"] * data_queue[trustee]["X"]
                 
             inv_P_F_K = sum_inv_P_K + inv_new_P_M
             P_F_K = 1/inv_P_F_K
@@ -86,7 +86,8 @@ while True:
             P_M.append(P_F_K)
             X_M.append(X_F_K)
             k+=1
-        
+
+            data = P_F_K + "_" + X_F_K        
         else:
             data = "none"
     

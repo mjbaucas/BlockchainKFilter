@@ -34,10 +34,9 @@ if __name__ == "__main__":
     A = 1
     B = 0
     C = 1
-    Q = 1e-3
-    R = 1e-2
-
     Beta = 1
+    Q = 1e-3/Beta
+    R = 1e-2
 
     X = [None]
     t = 100
@@ -76,14 +75,12 @@ if __name__ == "__main__":
                     global_recv = 1
 
                 if global_recv == 1:
-                    Q = Q/Beta
-                    new_P_KF = new_P_KF/Beta
-                    X_KF.append(new_X_KF)
-                    P_KF.append(new_P_KF)
+                    message = received.split("_")
+                    X_KF.append(message[1])
+                    P_KF.append(message[0]/Beta)
+                    D_KF.append(get_distance(X_KF[k], C=-49, N=2))  
             
             if global_recv == 1:
-                D_KF.append(get_distance(X_KF[k], C=-49, N=2))  
-                
                 # Debugging prints
                 print(D[k])
                 print(D_KF[k])
