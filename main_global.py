@@ -90,6 +90,6 @@ while True:
 
             data = str(P_F_K) + "_" + str(X_F_K)        
     
-    send_msg(conn, data)# Send back the received data intact
+    send_msg(conn, str.encode(data))# Send back the received data intact
     print('Received', repr(data))  
     conn.close()

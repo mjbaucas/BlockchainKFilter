@@ -73,6 +73,7 @@ if __name__ == "__main__":
                 
                 if received != 'none' and received != None:
                     global_recv = 1
+                    received = received.decode("utf-8")
 
                 if global_recv == 1:
                     message = received.split("_")
