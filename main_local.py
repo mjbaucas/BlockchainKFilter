@@ -67,6 +67,7 @@ if __name__ == "__main__":
                 
                 # Recieve Values
                 recieved = recv_msg(s)
+                print(received)
                 
                 if recieved != 'none':
                     global_recv = 1

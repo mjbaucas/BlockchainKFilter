@@ -1,5 +1,9 @@
 import socket  
+import sys
+
 from utils import send_msg, recv_msg
+from blockchain.private_blockchain import Chain as PrivateBlockchain
+from filters.kalman import KalmanFilter1D
  
 host_ip = sys.argv[1]  
 port = int(sys.argv[2])
@@ -70,7 +74,7 @@ while True:
         
         sum_inv_P_K = 0
         sum_inv_P_X = 0
-        if trust_counter = len(trusted_list):
+        if trust_counter == len(trusted_list):
             for trustee in trusted_list:
                 sum_inv_P_K += data_queue[trustee]["P"]
                 sum_inv_P_X += data_queue[trustee]["P"] + data_queue[trustee]["X"]
