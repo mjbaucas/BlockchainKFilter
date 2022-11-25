@@ -68,10 +68,10 @@ if __name__ == "__main__":
                 send_msg(s, str.encode(data))
                 
                 # Recieve Values
-                recieved = recv_msg(s)
+                received = recv_msg(s)
                 print(received)
                 
-                if recieved != 'none':
+                if received != 'none':
                     global_recv = 1
 
                 if global_recv == 1:

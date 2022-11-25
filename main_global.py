@@ -42,9 +42,10 @@ Z = []
 P_M = [Q]
 X_M = []
 
-k = 0
+k = 1
 D = []
 D_KF = []
+X_KF.append(Z[k]*(1/C))
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  
 s.bind((host_ip, port))  
@@ -84,6 +85,7 @@ while True:
 
             P_M.append(1/inv_P_F_K)
             X_M.append(X_F_K)
+            k+=1
         
         else:
             data = "none"
