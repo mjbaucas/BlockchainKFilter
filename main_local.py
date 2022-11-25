@@ -73,12 +73,9 @@ if __name__ == "__main__":
                 
                 if received != 'none' and received != None:
                     global_recv = 1
-                    received = received.decode("utf-8")
-
-                if global_recv == 1:
-                    message = received.split("_")
-                    X_KF.append(float(message[1]))
-                    P_KF.append(float(message[0])/Beta)
+                    received = received.decode("utf-8").split("_")
+                    X_KF.append(float(received[1]))
+                    P_KF.append(float(received[0])/Beta)
                     D_KF.append(get_distance(X_KF[k], C=-45, N=2))  
             
             if global_recv == 1:
