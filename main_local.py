@@ -71,13 +71,13 @@ if __name__ == "__main__":
                 received = recv_msg(s)
                 print(received)
                 
-                if received != 'none':
+                if received != 'none' or received != None:
                     global_recv = 1
 
                 if global_recv == 1:
                     message = received.split("_")
-                    X_KF.append(message[1])
-                    P_KF.append(message[0]/Beta)
+                    X_KF.append(float(message[1]))
+                    P_KF.append(float(message[0])/Beta)
                     D_KF.append(get_distance(X_KF[k], C=-49, N=2))  
             
             if global_recv == 1:

@@ -50,6 +50,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((host_ip, port))  
 s.listen(10)  
 while True:  
+    data = "none"
     conn, addr = s.accept()  
     print('Connected by', addr)  
     data = recv_msg(conn)
@@ -87,12 +88,7 @@ while True:
             X_M.append(X_F_K)
             k+=1
 
-            data = P_F_K + "_" + X_F_K        
-        else:
-            data = "none"
-    
-    else:
-        data = "none"
+            data = str(P_F_K) + "_" + str(X_F_K)        
     
     send_msg(conn, data)# Send back the received data intact
     print('Received', repr(data))  
