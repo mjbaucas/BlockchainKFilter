@@ -10,8 +10,11 @@ import hashlib
 from blockchain.private_blockchain import Chain
 
 import sys
+import socket
 
 local_number = sys.argv[1]
+host_ip = sys.argv[2]
+port = int(sys.argv[3])
 
 # Initialize Private Blockchain
 authorized = ['c6:94:35:af:78:25'] # Change this to hash or read from encrypted file
@@ -46,6 +49,7 @@ if __name__ == "__main__":
     D = []
     D_KF = []
     while k < t:
+        global_recv = 0
         rssi = get_RSSI(5)
         if rssi != 0:
             Z.append(rssi)
@@ -54,21 +58,36 @@ if __name__ == "__main__":
                 X_KF.append(Z[k]*(1/C))
             else:
                 new_X_KF, new_P_KF = kf.filter(X_KF[k-1], Z[k], 0, P_KF[k-1], A, B, C, Q, R)
+                
                 # Send to Global Filter
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                s.connect((host_ip, port))
+                data = "local" + local_number + "_" + str(new_P_KF) + "_" + str(new_X_KF)
+                send_msg(s, str.encode(data))
+                
                 # Recieve Values
-                Q = Q/Beta
-                new_P_KF = new_P_KF/Beta
-                X_KF.append(new_X_KF)
-                P_KF.append(new_P_KF)
-            D_KF.append(get_distance(X_KF[k], C=-45, N=2))  
+                recieved = recv_msg(s)
+                
+                if recieved != 'none':
+                    global_recv = 1
+
+                if global_recv == 1:
+                    Q = Q/Beta
+                    new_P_KF = new_P_KF/Beta
+                    X_KF.append(new_X_KF)
+                    P_KF.append(new_P_KF)
             
-            # Debugging prints
-            print(D[k])
-            print(D_KF[k])
-            
-            rssi_file.write("{} {}\n".format(Z[k], X_KF[k]))
-            dist_file.write("{} {}\n".format(D[k], D_KF[k]))
-            k+=1
+            if global_recv == 1:
+                D_KF.append(get_distance(X_KF[k], C=-45, N=2))  
+                
+                # Debugging prints
+                print(D[k])
+                print(D_KF[k])
+                
+                rssi_file.write("{} {}\n".format(Z[k], X_KF[k]))
+                dist_file.write("{} {}\n".format(D[k], D_KF[k]))
+                k+=1
+                global_recv = 0
 
     # RMSE     
     rms = sqrt(mean_squared_error(Z, X_KF))
