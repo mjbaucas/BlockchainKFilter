@@ -40,12 +40,11 @@ X = [None]
 t = 100
 Z = []
 P_M = [Q]
-X_M = []
+X_M = [0]
 
 k = 1
 D = []
 D_KF = []
-X_KF.append(Z[k]*(1/C))
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  
 s.bind((host_ip, port))  
@@ -70,7 +69,7 @@ while True:
 
         trust_counter = 0
         for trustee in trusted_list:
-            if len(data_queue[trustee]["X"]) != None and len(data_queue[trustee]["P"]) != None:
+            if data_queue[trustee]["X"] != None and data_queue[trustee]["P"] != None:
                 trust_counter+=1
         
         sum_inv_P_K = 0
@@ -81,9 +80,10 @@ while True:
                 sum_inv_P_X += data_queue[trustee]["P"] + data_queue[trustee]["X"]
                 
             inv_P_F_K = sum_inv_P_K + inv_new_P_M
-            X_F_K = P_F_K(inv_new_P_M*new_X_M + sum_inv_P_X)
+            P_F_K = 1/inv_P_F_K
+            X_F_K = P_F_K*(inv_new_P_M*new_X_M + sum_inv_P_X)
 
-            P_M.append(1/inv_P_F_K)
+            P_M.append(P_F_K)
             X_M.append(X_F_K)
             k+=1
         
