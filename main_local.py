@@ -14,7 +14,7 @@ import sys
 local_number = sys.argv[1]
 
 # Initialize Private Blockchain
-authorized = sys.argv[2] # Change this to hash or read from encrypted file
+authorized = ['c6:94:35:af:78:25'] # Change this to hash or read from encrypted file
 ledger = Chain()
 ledger.gen_next_block(hashlib.sha256("AddressBlock0".encode()).digest(), authorized)
 

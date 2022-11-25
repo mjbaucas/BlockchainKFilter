@@ -5,7 +5,7 @@ def get_RSSI(iteration):
 	interface = 'wlan0'
 	rssi_scanner = rssi.RSSI_Scan(interface)
 
-	ssids = ['JayHotSpot']
+	ssids = ['Baucas_Deco']
 
 	rssi_val = 0
 	rssi_list = []
