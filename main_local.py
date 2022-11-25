@@ -71,7 +71,7 @@ if __name__ == "__main__":
                 received = recv_msg(s)
                 print(received)
                 
-                if received != 'none' or received != None:
+                if received != 'none' and received != None:
                     global_recv = 1
 
                 if global_recv == 1:
