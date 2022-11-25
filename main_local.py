@@ -56,6 +56,7 @@ if __name__ == "__main__":
             D.append(get_distance(rssi, C=-45, N=2))   
             if k == 0:
                 X_KF.append(Z[k]*(1/C))
+                k+=1
             else:
                 new_X_KF, new_P_KF = kf.filter(X_KF[k-1], Z[k], 0, P_KF[k-1], A, B, C, Q, R)
                 
