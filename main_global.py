@@ -12,7 +12,7 @@ print('host ip: ', host_ip)# Should be displayed as: 127.0.1.1
 
 # Initialize Blockchain
 trusted_list = [
-    "local1"
+    "local1", "local2"
 ]
 
 pchain = PrivateBlockchain()
@@ -91,6 +91,8 @@ while True:
 
             data = str(P_F_K) + "_" + str(X_F_K) 
             data_queue[message[0]]["sent"] = True
+        else:
+            data = "none"
 
         # Check if valeu has been sent to local filter
         sent_counter = 0

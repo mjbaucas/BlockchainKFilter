@@ -78,8 +78,8 @@ if __name__ == "__main__":
                     P_KF.append(float(received[0])/Beta)
                     D_KF.append(get_distance(X_KF[k], C=-57, N=2)) 
                 else:
-                    Z.remove(-1)
-                    D.remove(-1)  
+                    Z.remove(Z[-1])
+                    D.remove(D[-1])  
             
             if global_recv == 1:
                 # Debugging prints
