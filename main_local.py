@@ -25,6 +25,7 @@ ledger.gen_next_block(hashlib.sha256("AddressBlock0".encode()).digest(), authori
 # Initialize Kalman Filter
 kf = KalmanFilter1D()
 
+none_counter = 0
 if __name__ == "__main__":
     # Write to files
     rssi_file = open("rssiLocal" + local_number + ".txt", "a")
@@ -77,9 +78,11 @@ if __name__ == "__main__":
                     X_KF.append(float(received[1]))
                     P_KF.append(float(received[0])/Beta)
                     D_KF.append(get_distance(X_KF[k], C=-57, N=2)) 
+                    none_counter = 0
                 else:
                     Z.remove(Z[-1])
-                    D.remove(D[-1])  
+                    D.remove(D[-1]) 
+                    none_counter+=1
             
             if global_recv == 1:
                 # Debugging prints
@@ -90,6 +93,9 @@ if __name__ == "__main__":
                 dist_file.write("{} {}\n".format(D[k], D_KF[k]))
                 k+=1
                 global_recv = 0
+            
+            if none_counter == 10:
+                break
 
     # RMSE     
     rms = sqrt(mean_squared_error(Z, X_KF))
