@@ -12,7 +12,7 @@ print('host ip: ', host_ip)# Should be displayed as: 127.0.1.1
 
 # Initialize Blockchain
 trusted_list = [
-    "local1c", "local2c", "local3c", "local4c"
+    "local1a", "local2a", "local3a", "local4a"
 ]
 
 pchain = PrivateBlockchain()
@@ -57,16 +57,17 @@ while True:
     if not data: 
         break
     message = data.decode().split("_")
-    if message[0] in pchain.output_ledger():
+    if message[0] in pchain.output_ledger() and trusted_list[trustee_index] == message[0]:
         new_X_M, new_P_M = kf._predict(X_M[k-1], 0, P_M[k-1], A, B, Q)
         inv_new_P_M = 1/new_P_M
         inv_P_K = 1/float(message[1])
 
-        if data_queue[message[0]]["P"] == None:
-            data_queue[message[0]]["P"] = inv_P_K
-        
-        if data_queue[message[0]]["X"] == None:
-            data_queue[message[0]]["X"] = float(message[2])
+        if data_queue[message[0]]["sent"] == False:
+            if data_queue[message[0]]["P"] == None:
+                data_queue[message[0]]["P"] = inv_P_K
+            
+            if data_queue[message[0]]["X"] == None:
+                data_queue[message[0]]["X"] = float(message[2])
 
         trust_counter = 0
         for trustee in trusted_list:
@@ -97,13 +98,20 @@ while True:
         # Check if valeu has been sent to local filter
         sent_counter = 0
         for trustee in trusted_list:
-            if data_queue[trustee]["sent"]:
+            if data_queue[trustee]["sent"] == True:
                 sent_counter+=1
         if sent_counter == len(trusted_list):
             for trustee in trusted_list:
                 data_queue[trustee]["P"] = None
                 data_queue[trustee]["X"] = None
                 data_queue[trustee]["sent"] = False
+
+        trustee_index+=1
+        if trustee_index > len(trusted_list) - 1:
+            trustee_index = 0
+    else:
+        data = "none"
+    
     
     send_msg(conn, str.encode(data))# Send back the received data intact
     print('Received', repr(data))  
