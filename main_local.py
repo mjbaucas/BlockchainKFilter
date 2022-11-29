@@ -12,6 +12,7 @@ from utils import send_msg, recv_msg
 
 import sys
 import socket
+import time
 
 local_number = sys.argv[1]
 host_ip = sys.argv[2]
@@ -63,8 +64,17 @@ if __name__ == "__main__":
                 new_X_KF, new_P_KF = kf.filter(X_KF[k-1], Z[k], 0, P_KF[k-1], A, B, C, Q, R)
                 
                 # Send to Global Filter
-                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                s.connect((host_ip, port))
+                bound = False
+                while not bound:
+                    try:
+                        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                        s.connect((host_ip, port))
+                        bound = True
+                    except OSError:
+                        print("Failed to bind, trying again in 5 seconds...")
+                        time.sleep(2)
+
+                
                 data = "local" + local_number + "_" + str(new_P_KF) + "_" + str(new_X_KF)
                 send_msg(s, str.encode(data))
                 
