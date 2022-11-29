@@ -36,7 +36,7 @@ if __name__ == "__main__":
     A = 1
     B = 0
     C = 1
-    Beta = 1
+    Beta = 0.25
     Q = 1e-3/Beta
     R = 1e-2
 
