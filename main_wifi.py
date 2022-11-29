@@ -10,7 +10,7 @@ import hashlib
 from blockchain.private_blockchain import Chain
 
 # Initialize Private Blockchain
-authorized = ['b8:27:eb:ca:80:6c'] # Change this to hash or read from encrypted file
+authorized = ['c6:94:35:af:78:25'] # Change this to hash or read from encrypted file
 ledger = Chain()
 ledger.gen_next_block(hashlib.sha256("AddressBlock1".encode()).digest(), authorized)
 
@@ -43,14 +43,14 @@ if __name__ == "__main__":
         rssi = get_RSSI(5)
         if rssi != 0:
             Z.append(rssi)
-            D.append(get_distance(rssi, C=-45, N=2))   
+            D.append(get_distance(rssi, C=-57, N=2))   
             if k == 0:
                 X_KF.append(Z[k]*(1/C))
             else:
                 new_X_KF, new_P_KF = kf.filter(X_KF[k-1], Z[k], 0, P_KF[k-1], A, B, C, Q, R)
                 X_KF.append(new_X_KF)
                 P_KF.append(new_P_KF)
-            D_KF.append(get_distance(X_KF[k], C=-45, N=2))  
+            D_KF.append(get_distance(X_KF[k], C=-57, N=2))  
             
             # Debugging prints
             print(D[k])
