@@ -12,7 +12,7 @@ print('host ip: ', host_ip)# Should be displayed as: 127.0.1.1
 
 # Initialize Blockchain
 trusted_list = [
-    "local1", "local2"
+    "local1", "local2", "local3", "local4"
 ]
 
 pchain = PrivateBlockchain()
