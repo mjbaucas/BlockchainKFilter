@@ -49,6 +49,8 @@ D_KF = []
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  
 s.bind((host_ip, port))  
 s.listen(10)  
+
+trustee_index = 0
 while True:  
     data = "none"
     conn, addr = s.accept()  

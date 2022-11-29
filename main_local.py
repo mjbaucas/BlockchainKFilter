@@ -41,7 +41,7 @@ if __name__ == "__main__":
     R = 1e-2
 
     X = [None]
-    t = 20
+    t = 50
     Z = []
     P_KF = [Q]
     X_KF = []
