@@ -63,10 +63,11 @@ if __name__ == "__main__":
             
             rssi_file.write("{} {}\n".format(Z[k], X_KF[k]))
             dist_file.write("{} {}\n".format(D[k], D_KF[k]))
-            k+=1
 
             acc += 1- (abs(Z[k] - X_KF[k])/Z[k])
             acc_count += 1
+
+            k+=1
 
     # RMSE     
     rms = sqrt(mean_squared_error(Z, X_KF))

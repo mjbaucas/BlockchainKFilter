@@ -26,6 +26,8 @@ ledger.gen_next_block(hashlib.sha256("AddressBlock0".encode()).digest(), authori
 # Initialize Kalman Filter
 kf = KalmanFilter1D()
 
+acc = 0
+acc_count = 0
 none_counter = 0
 if __name__ == "__main__":
     # Write to files
@@ -102,6 +104,10 @@ if __name__ == "__main__":
                 
                 rssi_file.write("{} {}\n".format(Z[k], X_KF[k]))
                 dist_file.write("{} {}\n".format(D[k], D_KF[k]))
+
+                acc += 1- (abs(Z[k] - X_KF[k])/Z[k])
+                acc_count += 1
+
                 k+=1
                 global_recv = 0
             
@@ -113,7 +119,10 @@ if __name__ == "__main__":
     rms_d = sqrt(mean_squared_error(D, D_KF))
     print(rms)
     print(rms_d)
-    
+
+    # Accuracy
+    print(acc/acc_count)    
+
     # Plot RSSI
     plt.figure(0)
     plt.plot(Z[:], label="True")
