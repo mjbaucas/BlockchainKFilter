@@ -2,6 +2,7 @@ from numpy.random import randn
 from sklearn.metrics import mean_squared_error
 from math import sqrt
 import matplotlib.pyplot as plt
+import sys
 
 from filters.kalman import KalmanFilter1D
 from localization.tri_utils import get_distance
@@ -17,10 +18,14 @@ ledger.gen_next_block(hashlib.sha256("AddressBlock1".encode()).digest(), authori
 # Initialize Kalman Filter
 kf = KalmanFilter1D()
 
+local_number = sys.argv[1]
+
+acc = 0
+acc_count = 0
 if __name__ == "__main__":
     # Write to files
-    rssi_file = open("rssiW100.txt", "a")
-    dist_file = open("distW100.txt", "a")
+    rssi_file = open("rssi" + local_number + ".txt", "a")
+    dist_file = open("dist" + local_number + ".txt", "a")
     
     # Filter Parameters
     A = 1
@@ -60,11 +65,17 @@ if __name__ == "__main__":
             dist_file.write("{} {}\n".format(D[k], D_KF[k]))
             k+=1
 
+            acc += 1- (abs(Z[k] - X_KF[k])/Z[k])
+            acc_count += 1
+
     # RMSE     
     rms = sqrt(mean_squared_error(Z, X_KF))
     rms_d = sqrt(mean_squared_error(D, D_KF))
     print(rms)
     print(rms_d)
+
+    # Accuracy
+    print(acc/acc_count)   
     
     # Plot RSSI
     plt.figure(0)
